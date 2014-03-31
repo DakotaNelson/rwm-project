@@ -164,7 +164,7 @@ void RWM::EEPROMwriteInt(unsigned long address, int value) {
   }
 }
 
-void RWM::EEPROMwriteInts(unsigned long address, byte n, int *buffer) {
+void RWM::EEPROMwriteInts(unsigned long address, byte n, unsigned int *buffer) {
   word temp;
   byte i;
 
@@ -228,7 +228,7 @@ void RWM::EEPROMwrite2Ints(unsigned long address, int *buffer) {
   }
 }
 
-void RWM::EEPROMread2Ints(unsigned long address, int *buffer) {
+void RWM::EEPROMread2Ints(unsigned long address, unsigned int *buffer) {
   word temp;
   byte i, value;
   

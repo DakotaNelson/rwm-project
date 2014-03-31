@@ -35,10 +35,10 @@ class RWM {
     void EEPROMwriteBytes(unsigned long address, byte num, byte *buffer);
     byte EEPROMreadByte(unsigned long address);
     void EEPROMwriteInt(unsigned long address, int value);
-    void EEPROMwriteInts(unsigned long address, byte num, int *buffer);
+    void EEPROMwriteInts(unsigned long address, byte num, unsigned int *buffer);
     int EEPROMreadInt(unsigned long address);
     void EEPROMwrite2Ints(unsigned long address, int *buffer);
-    void EEPROMread2Ints(unsigned long address, int *buffer);
+    void EEPROMread2Ints(unsigned long address, unsigned int *buffer);
     void EEPROMwrite4Ints(unsigned long address, int *buffer);
     void EEPROMread4Ints(unsigned long address, int *buffer);
   private:
