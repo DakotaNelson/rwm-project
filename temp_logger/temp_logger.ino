@@ -26,19 +26,28 @@ void setup(){
 
 void loop(){
   
-  while(millis() < 30000) { // leave a 30 second bootup time during which to connect serial
+  /*while(millis() < 30000) { // leave a 30 second bootup time during which to connect serial
     if(Serial) { // if serial is connected during this time, dump the stored logs
       dumpData();
-      while(true); // block forever, we only want to dump data this run, not log
+      break;
+      //while(true); // block forever, we only want to dump data this run, not log
     } // else start logging
-  }
+  }*/
   
+  delay(30000);
+  
+  dumpData();
+  
+  Serial.println(' ');
+  Serial.println("Beginning Logging.");
   address = 1; // leave an int to store the number of records
   while(true) { // log until unplugged
     databuffer = analogRead(tempPin);
     rwm.EEPROMwriteInt(address, databuffer); // log a record
     rwm.EEPROMwriteInt(0,address); // at address 0, write the number of records we've logged so far
     address += 1;
+    Serial.print(databuffer);
+    Serial.print(",");
     delay(interval*1000); // delay some seconds
   }
 }
