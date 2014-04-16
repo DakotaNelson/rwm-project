@@ -12,21 +12,23 @@ SD card attached to SPI bus:
 
 int readTemp();
 
-const int chipSelect = 8;     // Digital pin needed to do chip select on the SPI bus for the SD card
-const int tempSensorPin = A5; // The analog pin the temperature sensor's output feeds to.
-const int ledPin = 13;        // LED used for error indication
+const int chipSelect = 8;         // Digital pin needed to do chip select on the SPI bus for the SD card
+const int ledPin = 13;            // LED used for error indication
+const int tempSensorPin = A5;     // The analog pin the temperature sensor's output feeds to.
+const int pressureSensorPin = A4; // The analog pin the pressure sensor's output feeds to.
 
 
 void setup() {
   // Set up the pins
+  pinMode(chipSelect,OUTPUT);
+  pinMode(ledPin,OUTPUT);
+  digitalWrite(ledPin,LOW); // Keep the pin from floating.
   
   // Begin Serial
   Serial.begin(9600);
   
   // Prepare the SD card
   Serial.println("Initializing SD Card...");
-  pinMode(chipSelect,OUTPUT);
-  pinMode(ledPin,OUTPUT);
   
   if(!SD.begin(chipSelect)){
     Serial.println("Card failed or not present.");
@@ -36,9 +38,10 @@ void setup() {
   File dataFile = SD.open("data.csv", FILE_WRITE);
   if(dataFile) {
     dataFile.println("Timestamp,Temperature,Pressure,Conductivity");
+    dataFile.close();
   }
   else {
-    Serial.print("error opening data.csv");
+    Serial.print("error opening data file");
     while(true) {
       digitalWrite(ledPin,LOW);
       delay(500);
@@ -62,7 +65,7 @@ void loop() {
     
   }
   else {
-    Serial.println("error opening data.log");
+    Serial.println("error opening data file");
     while(true) {
       digitalWrite(ledPin,LOW);
       delay(500);
