@@ -14,17 +14,23 @@ int readTemp();
 int readPressure();
 int readConductivity();
 
-const int chipSelect = 8;         // Digital pin needed to do chip select on the SPI bus for the SD card
-const int ledPin = 13;            // LED used for error indication
-const int tempSensorPin = A5;     // The analog pin the temperature sensor's output feeds to.
-const int pressureSensorPin = A4; // The analog pin the pressure sensor's output feeds to.
-const int conductSensorPin = A3;  // The analog pin the conductivity sensor's output feeds to.
+static int chipSelect = 8;         // Digital pin needed to do chip select on the SPI bus for the SD card
+static int ledPin = 13;            // LED used for error indication
+static int tempSensorPin = 5;     // The analog pin the temperature sensor's output feeds to.
+static int pressureSensorPin = 4; // The analog pin the pressure sensor's output feeds to.
+static int conductSensorPin = 3;  // The analog pin the conductivity sensor's output feeds to.
 
 void setup() {
-  // Set up the pins
+  // Set all pins to OUTPUT LOW to save power as per http://forum.arduino.cc/index.php/topic,28357.0.html
+  for(int i = 2;i<14;i++) {
+    pinMode(i,OUTPUT);
+    digitalWrite(i,LOW);
+  }
+  
+  // Set up the pins we use
   pinMode(chipSelect,OUTPUT);
   pinMode(ledPin,OUTPUT);
-  digitalWrite(ledPin,LOW); // Keep the pin from floating.
+  digitalWrite(ledPin,LOW); // Keep the LED pin from floating.
   
   // Begin Serial
   Serial.begin(9600);
@@ -60,6 +66,10 @@ void setup() {
 
 
 void loop() {
+  
+  // Delay 30 seconds between readings. Sleeping would be great, but we need the clock to be awake to get timestamps.
+  delay(30000);
+  
   File dataFile = SD.open("data.csv", FILE_WRITE);
   
   if (dataFile) {
@@ -70,7 +80,17 @@ void loop() {
     dataFile.print(",");
     dataFile.print(readPressure());
     dataFile.print(",");
-    dataFile.print(readConductivity());
+    dataFile.println(readConductivity());
+    
+    /*
+    Serial.print(millis());
+    Serial.print(",");
+    Serial.print(readTemp());
+    Serial.print(",");
+    Serial.print(readPressure());
+    Serial.print(",");
+    Serial.println(readConductivity());
+    */
     
     dataFile.close();
     
@@ -89,15 +109,18 @@ void loop() {
 
 int readTemp() {
   // Very simple for now, may need more data conditioning later.
-  return analogRead(tempSensorPin);
+  int scratch = analogRead(tempSensorPin);
+  return scratch;
 }
 
 int readPressure() {
   // Very simple for now, may need more data conditioning later.
-  return analogRead(pressureSensorPin);
+  int scratch = analogRead(pressureSensorPin);
+  return scratch;
 }
 
 int readConductivity() {
   // Very simple for now, may need more data conditioning later.
-  return analogRead(conductSensorPin);
+  int scratch = analogRead(conductSensorPin);
+  return scratch;
 }
