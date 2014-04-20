@@ -10,9 +10,14 @@ Project repo for the course "Real World Measurements" at the [Olin College of En
 * Anders Johnson
 * Luke Morris
 
+---
 
 ###Sections:
 
 `./temp_logger` -> group lab to log temperature with an Arduino Uno.
 
 `./ctd` -> Arduino sketch to run a [CTD sensor](https://en.wikipedia.org/wiki/CTD_(instrument)).
+
+---
+
+######The RWM library at `./temp_logger/RWM` was written by [Brad Minch](http://www.olin.edu/faculty/profile/bradley-minch/).
