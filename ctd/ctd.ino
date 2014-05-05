@@ -32,14 +32,14 @@ void setup() {
   pinMode(ledPin,OUTPUT);
   digitalWrite(ledPin,LOW); // Keep the LED pin from floating.
   
-  // Begin Serial
-  Serial.begin(9600);
+  // Begin Serial (for debugging only)
+  //Serial.begin(9600);
   
   // Prepare the SD card
-  Serial.println("Initializing SD Card...");
+  //Serial.println("Initializing SD Card...");
   
   if(!SD.begin(chipSelect)){
-    Serial.println("Card failed or not present.");
+    //Serial.println("Card failed or not present.");
     while(true) {
       digitalWrite(ledPin,LOW);
       delay(500);
@@ -54,8 +54,8 @@ void setup() {
     dataFile.close();
   }
   else {
-    Serial.print("error opening data file");
-    while(true) {
+    //Serial.print("error opening data file");
+    while(true) { // Blink the LED so people know something's wrong.
       digitalWrite(ledPin,LOW);
       delay(500);
       digitalWrite(ledPin,HIGH);
@@ -66,9 +66,6 @@ void setup() {
 
 
 void loop() {
-  
-  // Delay 30 seconds between readings. Sleeping would be great, but we need the clock to be awake to get timestamps.
-  delay(30000);
   
   File dataFile = SD.open("data.csv", FILE_WRITE);
   
@@ -96,8 +93,8 @@ void loop() {
     
   }
   else {
-    Serial.println("error opening data file");
-    while(true) {
+    //Serial.println("error opening data file");
+    while(true) { // Blink the LED so people know something's wrong.
       digitalWrite(ledPin,LOW);
       delay(500);
       digitalWrite(ledPin,HIGH);
@@ -108,19 +105,16 @@ void loop() {
 
 
 int readTemp() {
-  // Very simple for now, may need more data conditioning later.
   int scratch = analogRead(tempSensorPin);
   return scratch;
 }
 
 int readPressure() {
-  // Very simple for now, may need more data conditioning later.
   int scratch = analogRead(pressureSensorPin);
   return scratch;
 }
 
 int readConductivity() {
-  // Very simple for now, may need more data conditioning later.
   int scratch = analogRead(conductSensorPin);
   return scratch;
 }
